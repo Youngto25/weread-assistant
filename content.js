@@ -22,9 +22,12 @@ function initializeExtension() {
   const floatingButton = document.createElement('button');
   floatingButton.classList.add('readerControls_item');
   floatingButton.classList.add('catalog');
-  floatingButton.innerHTML = '显';  
-  floatingButton.style.color = '#2A303A';
   floatingButton.style.fontSize = '18px';
+
+  // 从本地存储中获取状态
+  let isTopBarVisible = localStorage.getItem('isTopBarVisible') !== 'false';
+  updateButtonState(floatingButton, isTopBarVisible);
+  updatePageState(topBar, contentArea, isTopBarVisible);
 
   // 放置在第一个子节点
   try {
@@ -34,26 +37,34 @@ function initializeExtension() {
     return;
   }
   
-  let isTopBarVisible = true;
   floatingButton.addEventListener('click', function() {
-    if (topBar) {
-      topBar.style.display = isTopBarVisible ? 'none' : 'block';
-    } else {
-      console.warn('无法找到顶部栏元素');
-    }
-    
-    if (contentArea) {
-      contentArea.style.marginTop = isTopBarVisible ? '30px' : '60px';
-    } else {
-      console.warn('无法找到内容区域元素');
-    }
-    
     isTopBarVisible = !isTopBarVisible;
-    floatingButton.innerHTML = isTopBarVisible ? '显' : '隐';
-    floatingButton.style.color = isTopBarVisible ? '#2A303A' : '#9DA3AA';
+    updateButtonState(floatingButton, isTopBarVisible);
+    updatePageState(topBar, contentArea, isTopBarVisible);
+    // 保存状态到本地存储
+    localStorage.setItem('isTopBarVisible', isTopBarVisible);
   });
 
   console.log('浮动按钮初始化完成');
+}
+
+function updateButtonState(button, isVisible) {
+  button.innerHTML = isVisible ? '显' : '隐';
+  button.style.color = isVisible ? '#2A303A' : '#9DA3AA';
+}
+
+function updatePageState(topBar, contentArea, isVisible) {
+  if (topBar) {
+    topBar.style.display = isVisible ? 'block' : 'none';
+  } else {
+    console.warn('无法找到顶部栏元素');
+  }
+  
+  if (contentArea) {
+    contentArea.style.marginTop = isVisible ? '60px' : '30px';
+  } else {
+    console.warn('无法找到内容区域元素');
+  }
 }
 
 // 等待页面加载完成
