@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "微信读书界面优化",
+  "version": "1.0",
+  "description": "优化微信读书网页版的阅读界面",
+  "permissions": [
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://weread.qq.com/*"
+  ],
+  "action": {},
+  "content_scripts": [
+    {
+      "matches": ["https://weread.qq.com/web/reader/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
