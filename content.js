@@ -20,9 +20,21 @@ function initializeExtension() {
   }
 
   const floatingButton = document.createElement('button');
+  
+  floatingButton.addEventListener('mouseover', () => {
+    floatingButton.classList.add('button_hover');
+  });
+  floatingButton.addEventListener('mouseout', () => {
+    floatingButton.classList.remove('button_hover');
+  });
+  const style = document.createElement('style');
+  style.textContent = '.button_hover { color: #2A303A !important; }';
+  
+  document.head.appendChild(style);
   floatingButton.classList.add('readerControls_item');
   floatingButton.classList.add('catalog');
   floatingButton.style.fontSize = '18px';
+  floatingButton.style.color = '#9DA3AA';
 
   // 从本地存储中获取状态
   let isTopBarVisible = localStorage.getItem('isTopBarVisible') !== 'false';
@@ -49,8 +61,7 @@ function initializeExtension() {
 }
 
 function updateButtonState(button, isVisible) {
-  button.innerHTML = isVisible ? '显' : '隐';
-  button.style.color = isVisible ? '#2A303A' : '#9DA3AA';
+  button.innerHTML = isVisible ? '隐' : '显';
 }
 
 function updatePageState(topBar, contentArea, isVisible) {
@@ -65,13 +76,6 @@ function updatePageState(topBar, contentArea, isVisible) {
   } else {
     console.warn('无法找到内容区域元素');
   }
-}
-
-// 等待页面加载完成
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initializeExtension);
-} else {
-  initializeExtension();
 }
 
 // 添加一个 MutationObserver 来处理动态加载的内容
