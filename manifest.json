@@ -9,7 +9,20 @@
   "host_permissions": [
     "https://weread.qq.com/*"
   ],
-  "action": {},
+  "action": {
+    "default_icon": {
+      "16": "assets/icon.png",
+      "32": "assets/icon.png",
+      "48": "assets/icon.png",
+      "128": "assets/icon.png"
+    }
+  },
+  "icons": {
+    "16": "assets/icon.png",
+    "32": "assets/icon.png",
+    "48": "assets/icon.png",
+    "128": "assets/icon.png"
+  },
   "content_scripts": [
     {
       "matches": ["https://weread.qq.com/web/reader/*"],
